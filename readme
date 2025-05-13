@@ -1,0 +1,37 @@
+Find duplicates above minimum number of lines between specified files
+
+Parameters:
+- \[File1, File2, ......\]; Directory, compare between all selected files
+- Minimum lines or words to print
+- Verbosity mode:
+	- Print code + locations in both files
+	- Print only locations in both files
+- Help
+- Filter on file properties, only include files with a suffix etc.
+
+Each to each file comparison
+
+Recursive folder search
+
+Prints out the places where repeated lines are in each file, if verbosity is high, then also prints the repeated block.
+
+`uniq` command to search for duplicate blocks.
+
+Podział na moduły:
+- Rdzeń znajdujący różnice dla dwóch plików
+	- Group into blocks with a starting position, size and content, group by content, detect blocks with the same content.
+	- Find blocks with that are overlapping, reduce them into a single block that overlaps.
+	- Groups and overlaps can be probably easily found by hashing, check the same blocks that appear in the same locations. And group them together.
+	- Output as a list of blocks that overlap
+	- Easier variant will be finding blocks exactly of size n, probably do that first, then fix.
+	- Also easier variant will be for only two files, do this first and extend later
+- Łączenie różnic z dwóch plików na wiele plików
+- Preparator plików
+- Formater and printer - Ładne wyjście z programu, różne opcje printowania:
+	- Convert the raw data about
+- Top
+
+Listy powtarzających się bloków:
+- Pliki w których zawiera się ten blok
+- Linia na której zaczyna się ten blok dla każdego pliku
+- Długość bloku
