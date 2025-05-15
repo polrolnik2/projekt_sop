@@ -1,0 +1,28 @@
+#!/bin/bash
+
+FILE1=$1
+FILE2=$2
+MIN_BLOCK_SIZE=$3
+
+{
+  cat "$FILE1" | sed 's/:/!colon!/' | grep -n '' | sed "s|^|${FILE1}:|"
+  cat "$FILE2" | sed 's/:/!colon!/' | grep -n '' | sed "s|^|${FILE2}:|"
+} \
+| tr -s ' ' \
+| sort -t: -k3 \
+| awk -F: '
+{
+  if (prev_line != "" && $3 == prev_line) {
+    if (count == 1) {
+      printf "1:%s:%s:", prev_file, prev_line_num
+    }
+    printf "%s:%s\n", $1, $2
+    count++
+  } else {
+    count = 1
+  }
+  prev_file = $1
+  prev_line_num = $2
+  prev_line = $3
+}' \
+| sort -t: -k2 -k4 \

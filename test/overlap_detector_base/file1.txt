@@ -1,0 +1,11 @@
+for sublist in map(lambda x: ((((j, x[0][1], x[0][0]), x[1])) for j in range(N)), prep_B):
+  for item in sublist:
+    if item[0] not in intermediate_map:
+      intermediate_map[item[0]] = []
+    intermediate_map[item[0]].append(item[1])
+aaaaaa
+bsdgasdfgasdg
+asdgadsgsdg
+lorem ipsum
+bash
+eee
