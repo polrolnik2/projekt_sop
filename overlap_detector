@@ -20,9 +20,9 @@ current_block_size=1
 {
   if (prev_line != "" && $3 == prev_line) {
     if (count == 1) {
-      printf "%s:%s:", prev_file, prev_line_num
+      printf "%s:%s", prev_file, prev_line_num
     }
-    printf "%s:%s", $1, $2
+    printf ";%s:%s", $1, $2
     count++
   } else {
     if (count > 1) {
@@ -34,10 +34,19 @@ current_block_size=1
   prev_line_num = $2
   prev_line = $3
 }' \
+| while IFS= read -r line; do
+  IFS=';' read -ra fields <<< "$line"
+  for ((i=0; i<${#fields[@]}; i++)); do
+    for ((j=i+1; j<${#fields[@]}; j++)); do
+      echo "${fields[i]}:${fields[j]}"
+    done
+  done
+done \
 | {
-  sort -t: -k2 -k4
+  sort -t: -k1,1 -k3,3 -k2,2n -k4,4n
   echo "0:/dev/null:0:/dev/null:0"
-} | while read -r line; do
+} \
+| while read -r line; do
   first_file=$(cut -d: -f1 <<< "$line")
   first_line=$(cut -d: -f2 <<< "$line")
   second_file=$(cut -d: -f3 <<< "$line")

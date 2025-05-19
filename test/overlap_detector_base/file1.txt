@@ -11,3 +11,4 @@ bash
 eee
 for sublist in map(lambda x: ((((j, x[0][1], x[0][0]), x[1])) for j in range(N)), prep_B):
   for item in sublist:
+    if item[0] not in intermediate_map:
