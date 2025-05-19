@@ -22,9 +22,12 @@ current_block_size=1
     if (count == 1) {
       printf "%s:%s:", prev_file, prev_line_num
     }
-    printf "%s:%s\n", $1, $2
+    printf "%s:%s", $1, $2
     count++
   } else {
+    if (count > 1) {
+      printf "\n"
+    }
     count = 1
   }
   prev_file = $1
