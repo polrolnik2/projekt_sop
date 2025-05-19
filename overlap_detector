@@ -20,7 +20,7 @@ current_block_size=1
 {
   if (prev_line != "" && $3 == prev_line) {
     if (count == 1) {
-      printf "1:%s:%s:", prev_file, prev_line_num
+      printf "%s:%s:", prev_file, prev_line_num
     }
     printf "%s:%s\n", $1, $2
     count++
@@ -35,10 +35,10 @@ current_block_size=1
   sort -t: -k2 -k4
   echo "0:/dev/null:0:/dev/null:0"
 } | while read -r line; do
-  first_file=$(cut -d: -f2 <<< "$line")
-  first_line=$(cut -d: -f3 <<< "$line")
-  second_file=$(cut -d: -f4 <<< "$line")
-  second_line=$(cut -d: -f5 <<< "$line")
+  first_file=$(cut -d: -f1 <<< "$line")
+  first_line=$(cut -d: -f2 <<< "$line")
+  second_file=$(cut -d: -f3 <<< "$line")
+  second_line=$(cut -d: -f4 <<< "$line")
   if [ "$first_file" = "$previous_first_file" ] && [ $first_line -eq $((previous_first_line + 1)) ] && [ "$second_file" = "$previous_second_file" ] && [ $second_line -eq $((previous_second_line + 1)) ]; then
     current_block_size=$((current_block_size + 1))
   elif [[ "$previous_first_file" != "" && "$previous_second_file" != "" && $current_block_size -gt 0 ]]; then
