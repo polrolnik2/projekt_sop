@@ -19,3 +19,26 @@ do
   "$uniqueTab"+=("${result["$k1"]}")
   "$uniqueTab"+=("${result["$k1+1"]}")
 done
+
+
+compareFiles()
+{
+ echo "1:2"
+}
+declare -A uniqueTab
+TAB=( *.txt )
+Size=${#TAB[@]}
+for ((i=0;i<Size;i++))
+do
+ for ((j=i+1;j<Size;j++))
+ do
+  wynik=$(compareFiles "${TAB[$i]}" "${TAB[$j]}")
+  IFS=':' read -r -a result <<< "$wynik"
+  echo "${result[0]} ${result[1]}"
+  uniqueTab["$wynik"]+=" $wynik"
+ done
+done
+for x in "${uniqueTab[@]}"
+do
+ echo "$x"
+done
