@@ -68,6 +68,6 @@ done \
   file=$(cut -d: -f2 <<< "$line")
   line_number=$(cut -d: -f3 <<< "$line")
   block_size=$(cut -d: -f1 <<< "$line")
-  block_content=$(tail -n +"$line_number" "$file" | head -n "$block_size" | tr ':' '!colon!' | tr '\n' '\\n' | tr ' ' '\\')
+  block_content=$(tail -n +"$line_number" "$file" | head -n "$block_size" | sed 's/:/!colon!/' | tr '\n' ' ' | sed 's/ /!space!/g')
   echo "$line:$block_content"
 done
