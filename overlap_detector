@@ -63,4 +63,11 @@ done \
   previous_first_line="$first_line"
   previous_second_file="$second_file"
   previous_second_line="$second_line"
+done \
+| while read -r line; do
+  file=$(cut -d: -f2 <<< "$line")
+  line_number=$(cut -d: -f3 <<< "$line")
+  block_size=$(cut -d: -f1 <<< "$line")
+  block_content=$(tail -n +"$line_number" "$file" | head -n "$block_size" | tr ':' '!colon!' | tr '\n' '\\n' | tr ' ' '\\')
+  echo "$line:$block_content"
 done
