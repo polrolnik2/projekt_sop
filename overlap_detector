@@ -34,7 +34,7 @@ current_block_size=1
   prev_line_num = $2
   prev_line = $3
 }' \
-| while IFS= read -r line; do
+| while IFS= read -r line; do # 
   IFS=';' read -ra fields <<< "$line"
   for ((i=0; i<${#fields[@]}; i++)); do
     for ((j=i+1; j<${#fields[@]}; j++)); do
