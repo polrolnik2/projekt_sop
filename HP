@@ -10,32 +10,37 @@ do
  for ((j=i+1;j<Size;j++))
  do
   wynik=$(compareFiles "${TAB[$i]}" "${TAB[$j]}")
+  result=""
   if [ "$wynik" != "" ]
   then
-   IFS=':' read -r -a result <<< "$wynik"
-   if [ "${uniqueTab["${result[5]}"]}" = "" ]
-   then
-    uniqueTab["${result[5]}"]="$wynik"
-   fi
-   IFS=':' read -r -a element <<< "${uniqueTab["${result[5]}"]}"
-   for k1 in 1 3
+   rs=()
+   mapfile -t rs <<< "$wynik"
+   for ((k0=0;k0<"${#rs[@]}";k0++))
    do
-    p="0"
-    for ((k2=1;k2<"${#element[@]}";k2=k2+2))
+    IFS=':' read -r -a result <<< "${rs[k0]}"
+    result[0]="${result[5]}"
+    if [ "${uniqueTab["${result[0]}"]}" = "" ]
+    then
+     uniqueTab["${result[0]}"]="${result[0]}"
+    fi
+    IFS=':' read -r -a element <<< "${uniqueTab["${result[0]}"]}"
+    for k1 in 1 3
     do
-     if [ "${result["$k1"]}" = "${element["$k2"]}" ]
+     p="0"
+     for ((k2=1;k2<"${#element[@]}";k2=k2+2))
+     do
+      if [ "${result["$k1"]}" = "${element["$k2"]}" ]
+      then
+       p="1"
+       break
+      fi
+     done
+     if [ "$p" = "0" ]
      then
-      p="1"
-      echo "${TAB[$i]}" "${TAB[$j]}"
-      echo "${result["$k1"]}  ${element["$k2"]}"
-      break
+      uniqueTab["${result[0]}"]+=":${result["$k1"]}"
+      uniqueTab["${result[0]}"]+=":${result["$k1+1"]}"
      fi
     done
-    if [ "$p" = "0" ]
-    then
-     uniqueTab["${result[5]}"]+=":${result["$k1"]}"
-     uniqueTab["${result[5]}"]+=":${result["$k1+1"]}"
-    fi
    done
   fi
  done
