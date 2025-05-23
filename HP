@@ -1,15 +1,13 @@
-compareFiles()
-{
- echo "1:2:3:4:5"
-}
 declare -A uniqueTab
-TAB=( *.txt )
+min_repetition=$1
+filepath=$2
+TAB=( $2/*.txt )
 Size=${#TAB[@]}
 for ((i=0;i<Size;i++))
 do
  for ((j=i+1;j<Size;j++))
  do
-  wynik=$(compareFiles "${TAB[$i]}" "${TAB[$j]}")
+  wynik=$(bash ./overlap_detector "${TAB[$i]}" "${TAB[$j]}" "$min_repetition")
   result=""
   if [ "$wynik" != "" ]
   then
