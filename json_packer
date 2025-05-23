@@ -8,7 +8,7 @@ jq -Rn --arg line "$line" '
   {
     repetition_len: ($p[0] | tonumber),
     locations: [
-      range(1; ($p|length); 2) |
+      range(2; ($p|length); 2) |
       {
         file: $p[.],
         start_line: ($p[.+1] | tonumber)
