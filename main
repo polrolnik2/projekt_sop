@@ -1,1 +1,6 @@
 #!/bin/bash
+
+min_repetition_len=$1
+folder=$2
+
+bash ./HP $min_repetition_len $folder | xargs -I{} ./json_packer {} | jq -n '[inputs]'
