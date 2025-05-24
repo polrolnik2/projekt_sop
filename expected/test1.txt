@@ -1,0 +1,45 @@
+[
+  {
+    "repetition_len": 3,
+    "locations": [
+      {
+        "file": "./test/overlap_detector_base//file1.txt",
+        "start_line": 3
+      },
+      {
+        "file": "./test/overlap_detector_base//file2.txt",
+        "start_line": 6
+      }
+    ]
+  },
+  {
+    "repetition_len": 3,
+    "locations": [
+      {
+        "file": "./test/overlap_detector_base//file1.txt",
+        "start_line": 12
+      },
+      {
+        "file": "./test/overlap_detector_base//file1.txt",
+        "start_line": 1
+      }
+    ]
+  }
+  {
+    "repetition_len": 2,
+    "locations": [
+      {
+        "file": "./test/overlap_detector_base//file1.txt",
+        "start_line": 1
+      },
+      {
+        "file": "./test/overlap_detector_base//file2.txt",
+        "start_line": 2
+      },
+      {
+        "file": "./test/overlap_detector_base//file1.txt",
+        "start_line": 12
+      }
+    ]
+  }
+]
