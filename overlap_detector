@@ -34,7 +34,7 @@ awk -F: '
   prev_line_num = $2
   prev_line = $3
 }' | # Create a group one size 1 for each detected repetition. 
-while IFS= read -r line; do # For repetitions with more than one occurrence, create pairs of lines
+while IFS= read -r line; do # For groups with more than one occurrence, create pairs of lines
   IFS=';' read -ra fields <<< "$line"
   for ((i=0; i<${#fields[@]}; i++)); do
     for ((j=i+1; j<${#fields[@]}; j++)); do
