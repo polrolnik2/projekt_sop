@@ -10,13 +10,13 @@ previous_second_file=""
 previous_second_line=0
 current_block_size=1
 
-{
+{ # Edit both files to replace colons with a placeholder, then add line numbers and file names
   cat "$FILE1" | sed 's/:/!colon!/' | grep -n '' | sed "s|^|${FILE1}:|"
   cat "$FILE2" | sed 's/:/!colon!/' | grep -n '' | sed "s|^|${FILE2}:|"
-} \
-| tr -s ' ' \
-| sort -t: -k3 \
-| awk -F: '
+} |
+tr -s ' ' | # Remove extra spaces#
+sort -t: -k3 | # Sort by line number
+awk -F: '
 {
   if (prev_line != "" && $3 == prev_line) {
     if (count == 1) {
@@ -33,20 +33,20 @@ current_block_size=1
   prev_file = $1
   prev_line_num = $2
   prev_line = $3
-}' \
-| while IFS= read -r line; do
+}' | # Create a group one size 1 for each detected repetition. 
+while IFS= read -r line; do # For repetitions with more than one occurrence, create pairs of lines
   IFS=';' read -ra fields <<< "$line"
   for ((i=0; i<${#fields[@]}; i++)); do
     for ((j=i+1; j<${#fields[@]}; j++)); do
       echo "${fields[i]}:${fields[j]}"
     done
   done
-done \
-| {
+done |
+{ # Sort the pairs by files and line numbers
   sort -t: -k1,1 -k3,3 -k2,2n -k4,4n
   echo "0:/dev/null:0:/dev/null:0"
-} \
-| while read -r line; do
+} |
+while read -r line; do # Sliding window - Collect blocks of consecutive lines into longer blocks
   first_file=$(cut -d: -f1 <<< "$line")
   first_line=$(cut -d: -f2 <<< "$line")
   second_file=$(cut -d: -f3 <<< "$line")
@@ -63,8 +63,8 @@ done \
   previous_first_line="$first_line"
   previous_second_file="$second_file"
   previous_second_line="$second_line"
-done \
-| while read -r line; do
+done |
+while read -r line; do # Format the result with the block content processed without the special characters
   file=$(cut -d: -f2 <<< "$line")
   line_number=$(cut -d: -f3 <<< "$line")
   block_size=$(cut -d: -f1 <<< "$line")

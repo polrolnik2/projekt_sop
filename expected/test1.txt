@@ -24,7 +24,7 @@
         "start_line": 1
       }
     ]
-  }
+  },
   {
     "repetition_len": 2,
     "locations": [
