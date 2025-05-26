@@ -28,7 +28,7 @@ do
      p="0"
      for ((k2=2;k2<"${#element[@]}";k2=k2+2))
      do
-      if [ "${result["$k1"]}:${result["$k1+1"]}" = "${element["$k2"]}:${element["$k2"]}" ]
+      if [ "${result["$k1"]}:${result["$k1+1"]}" = "${element["$k2"]}:${element["$k2+1"]}" ]
       then
        p="1"
        break
