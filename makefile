@@ -4,7 +4,7 @@ MAIN_SCRIPT=./main
 MAIN_INPUT=./test/overlap_detector_base
 MAIN_THRESHOLD=2
 OUTPUT_DIR=output
-OUTPUT=output.txt
+OUTPUT=output.json
 REFERENCE=expected/test1.txt
 
 .PHONY: all run test clean
@@ -17,7 +17,7 @@ run:
 
 test: run
 	@echo "Comparing output with reference..."
-	@if diff -u $(REFERENCE) $(OUTPUT_DIR)/$(OUTPUT); then \
+	@if diff -B $(REFERENCE) $(OUTPUT_DIR)/$(OUTPUT) > /dev/null; then \
 		echo "PASS: Output matches reference."; \
 	else \
 		echo "FAIL: Output does not match reference." >&2; \
