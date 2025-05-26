@@ -1,7 +1,7 @@
 # Makefile for running main.sh and comparing output with reference
 SHELL := /bin/bash
-MAIN_SCRIPT=main
-MAIN_INPUT=./test/overlap_detector
+MAIN_SCRIPT=./main
+MAIN_INPUT=./test/overlap_detector_base
 MAIN_THRESHOLD=2
 OUTPUT_DIR=output
 OUTPUT=output.txt
@@ -13,7 +13,7 @@ all: test
 
 run:
 	mkdir -p $(OUTPUT_DIR)
-	bash $(MAIN_SCRIPT) $(MAIN_THRESHOLD) $(MAIN_INPUT) > $(OUTPUT_DIR)/$(OUTPUT)
+	bash $(MAIN_SCRIPT) $(MAIN_THRESHOLD) $(MAIN_INPUT) | tee $(OUTPUT_DIR)/$(OUTPUT)
 
 test: run
 	@echo "Comparing output with reference..."
